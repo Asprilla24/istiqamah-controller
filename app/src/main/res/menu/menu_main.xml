@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/action_updateLocation"
+        android:orderInCategory="100"
+        android:title="Update Location"
+        android:showAsAction="never"/>
+    <item
+        android:id="@+id/action_About"
+        android:orderInCategory="100"
+        android:title="About"
+        android:showAsAction="never"/>
+</menu>

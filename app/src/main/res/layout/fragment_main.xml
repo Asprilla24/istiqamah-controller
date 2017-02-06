@@ -1,0 +1,155 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/scrollView"
+        android:layout_above="@+id/btnSholat">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|top">
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal|top"
+                    android:weightSum="1"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:padding="5dp"
+                    android:background="@color/white">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvSholat"
+                        android:text="subuh"
+                        android:textSize="20dp"
+                        android:layout_gravity="center_horizontal" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00:00:00"
+                        android:id="@+id/tvTimer"
+                        android:layout_gravity="center_horizontal"
+                        android:textSize="50dp"
+                        android:layout_marginTop="-8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tvLocation"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="-5dp"
+                        android:text="Blimbing" />
+                </LinearLayout>
+
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/listSholat"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@color/white"
+                    android:scrollbars="vertical" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:padding="10dp">
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentLeft="true"
+                            android:textColor="@color/asphalt"
+                            android:text="Tahajud"
+                            android:textSize="20dp"
+                            android:id="@+id/textSholatTahajud"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:layout_weight="1"
+                            android:layout_gravity="center_vertical"/>
+
+                        <Switch
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text=""
+                            android:id="@+id/switchTahajud"
+                            android:layout_gravity="right|center_vertical"
+                            android:checked="false"
+                            android:textColor="#777777"
+                            android:textSize="20dp"
+                            android:textOn="On"
+                            android:textOff="Off"
+                            android:gravity="right|center_vertical"
+                            android:layout_weight="1" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentLeft="true"
+                            android:textColor="@color/asphalt"
+                            android:textSize="20dp"
+                            android:text="Dhuha"
+                            android:id="@+id/textSholatDhuha"
+                            android:paddingTop="10dp"
+                            android:paddingBottom="10dp"
+                            android:layout_weight="1" />
+
+                        <Switch
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text=""
+                            android:id="@+id/switchDhuha"
+                            android:gravity="right|center_vertical"
+                            android:layout_gravity="right|center_vertical"
+                            android:textColor="#777777"
+                            android:textSize="20dp"
+                            android:textOff="Off"
+                            android:textOn="On"
+                            android:layout_weight="1" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="70dp"
+            android:text="Sholat"
+            android:id="@+id/btnSholat"
+            android:textSize="25dp"
+            android:background="@color/colorPrimary"
+            android:textColor="#fff"
+            android:layout_gravity="bottom"
+            android:visibility="gone"
+            android:layout_alignParentBottom="true" />
+
+</RelativeLayout>
