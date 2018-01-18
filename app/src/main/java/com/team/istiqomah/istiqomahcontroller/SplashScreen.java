@@ -1,32 +1,34 @@
 package com.team.istiqomah.istiqomahcontroller;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.team.istiqomah.istiqomahcontroller.core.AppData;
 import com.team.istiqomah.istiqomahcontroller.core.CoreApplication;
-import com.team.istiqomah.istiqomahcontroller.helper.GPSTracker;
 import com.team.istiqomah.istiqomahcontroller.helper.SessionManagement;
-import com.team.istiqomah.istiqomahcontroller.helper.prayerTimeHelper;
 import com.team.istiqomah.istiqomahcontroller.helper.sholatSunnahRealmHelper;
 import com.team.istiqomah.istiqomahcontroller.model.sholatSunnahModel;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -36,12 +38,11 @@ import io.realm.Realm;
  * Created by alde.asprilla on 01/11/2016.
  */
 
-public class SplashScreen extends AppCompatActivity {
+public class SplashScreen extends AppCompatActivity implements LocationListener {
 
     private static final int PERMISSIONS_REQUEST_LOCATION = 100;
     // Splash screen timer
     private static int SPLASH_TIME_OUT = 3000;
-    private GPSTracker gps;
     private SessionManagement session;
     private Realm realm;
 
@@ -62,6 +63,9 @@ public class SplashScreen extends AppCompatActivity {
             if(ContextCompat.checkSelfPermission(SplashScreen.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
                 ActivityCompat.requestPermissions(SplashScreen.this,
                         new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        PERMISSIONS_REQUEST_LOCATION);
+                ActivityCompat.requestPermissions(SplashScreen.this,
+                        new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
                         PERMISSIONS_REQUEST_LOCATION);
             }else{
                 getLocation();
@@ -129,48 +133,73 @@ public class SplashScreen extends AppCompatActivity {
         }, SPLASH_TIME_OUT);
     }
 
-    private void getLocation(){
-        gps = new GPSTracker(SplashScreen.this);
+    private void getLocation() {
+        AppData.locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
-        String address = null;
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        Location location = AppData.locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        if(location != null){
+            String lat = String.valueOf(location.getLatitude());
+            String lng = String.valueOf(location.getLongitude());
+            String address = getAddress(location.getLatitude(), location.getLongitude());
 
-        // check if GPS enabled
-        do {
-            if (gps.canGetLocation()) {
+            Log.i("LAT", lat);
 
-                String latitude = String.valueOf(gps.getLatitude());
-                String longitude = String.valueOf(gps.getLongitude());
-                address = getAddress(gps.getLatitude(), gps.getLongitude());
+            session.setActiveInformation(address, lng, lat);
 
-                session.setActiveInformation(address, longitude, latitude);
-
-                Log.d("Long", longitude);
-                Log.d("Lat", latitude);
-
-                splashHandler();
-            }
-        }while(address == null);
-
-        gps.stopUsingGPS();
+            splashHandler();
+        } else{
+            AppData.locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+        }
     }
 
-    private String getAddress(double lat, double lng) {
-        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
-        String address = "";
-        try {
-            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
-            Address obj = addresses.get(0);
-            address = obj.getLocality() + ", " + obj.getAdminArea();
-            Log.v("IGA", "Address" + address);
-            // Toast.makeText(this, "Address=>" + add,
-            // Toast.LENGTH_SHORT).show();
+    private String getAddress(Double lat, Double lng){
+        Geocoder geocoder;
+        List<Address> addresses;
+        geocoder = new Geocoder(this, Locale.getDefault());
 
-            // TennisAppActivity.showDialog(add);
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
+        try {
+            addresses = geocoder.getFromLocation( lat, lng, 1); // Here 1 represent max location result to returned, by documents it recommended 1 to 5
+            if(addresses.get(0) != null){
+                String address = addresses.get(0).getLocality() + ", " + addresses.get(0).getAdminArea();
+
+                return address;
+            }
+
+        } catch (IOException e) {
             e.printStackTrace();
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
         }
-        return address;
+
+        return null;
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        String lat = String.valueOf(location.getLatitude());
+        String lng = String.valueOf(location.getLongitude());
+        String address = getAddress(location.getLatitude(), location.getLongitude());
+
+        Log.i("LAT", lat);
+
+        session.setActiveInformation(address, lng, lat);
+
+        splashHandler();
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+
     }
 }
