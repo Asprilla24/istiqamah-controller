@@ -1,6 +1,7 @@
 package com.team.istiqomah.istiqomahcontroller.adapter;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,11 +31,12 @@ public class presentationAdapter extends RecyclerView.Adapter<presentationAdapte
     private ArrayList<ArrayList<persentaseSholatModel>> mListPresentation;
 
     public presentationAdapter(ArrayList<ArrayList<persentaseSholatModel>> listPersentase){
+        super();
         this.mListPresentation = listPersentase;
     }
 
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public presentationAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.presentation_row, parent, false);
 
         return new MyViewHolder(itemView);
@@ -44,8 +46,10 @@ public class presentationAdapter extends RecyclerView.Adapter<presentationAdapte
     public void onBindViewHolder(MyViewHolder holder, int position) {
         ArrayList<persentaseSholatModel> obj = mListPresentation.get(position);
 
-        setChart(holder.chart, obj);
-        holder.tvSholat.setText(getSholatName(obj.get(0)));
+        if(obj.size() > 0){
+            setChart(holder.chart, obj);
+            holder.tvSholat.setText(getSholatName(obj.get(0)));
+        }
     }
 
     @Override
@@ -123,5 +127,9 @@ public class presentationAdapter extends RecyclerView.Adapter<presentationAdapte
             }
             default : return 0;
         }
+    }
+
+    private void showLog(String message){
+        Log.d("presentationAdapter", message);
     }
 }

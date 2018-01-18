@@ -395,9 +395,7 @@ public class MainFragment extends Fragment {
 
         @Override
         public void onFinish() {
-//            if(!db.sudahSholat("Subuh") && db.getSholat(4, 1)[0][0].equals("Subuh")) {
-//                db.insertDashboard("Subuh", 0, sdf.format(Calendar.getInstance().getTime()));
-//            }
+            initView(activeUser.get(SessionManagement.KEY_LOKASI));
         }
     }
 

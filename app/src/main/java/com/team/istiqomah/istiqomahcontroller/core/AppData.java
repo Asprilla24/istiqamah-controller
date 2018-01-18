@@ -1,5 +1,7 @@
 package com.team.istiqomah.istiqomahcontroller.core;
 
+import android.location.LocationManager;
+
 import com.team.istiqomah.istiqomahcontroller.model.waktuSholatModel;
 
 import java.util.ArrayList;
@@ -9,6 +11,8 @@ import java.util.ArrayList;
  */
 
 public class AppData {
+    public static LocationManager locationManager;
+
     public static final int KEY_ISYA = 6;
     public static final int KEY_SUBUH = 0;
     public static final int KEY_DHUHUR = 2;

@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/IstiqomahController.iml" filepath="$PROJECT_DIR$/IstiqomahController.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/istiqamah-controller.iml" filepath="$PROJECT_DIR$/istiqamah-controller.iml" />
     </modules>
   </component>
 </project>
